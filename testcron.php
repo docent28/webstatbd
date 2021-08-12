@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $database = "docent28_tstcrn";
-$username = "root";
+$username = "docent28_tstcrn";
 $password = "Ntyfc1967!";
 // Устанавливаем соединение
 $conn = mysqli_connect($servername, $username, $password, $database);
