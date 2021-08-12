@@ -1,7 +1,32 @@
 <?php
 echo('index.php<br>');
    $token = '548b24d95ee6ada9fd35e9c3298b0796';
-echo(ini_get('max_execution_time'));
+
+$start = microtime(true);
+
+
+    // получаем список всех преподавателей, зарегистрированных в системе Webinar.ru
+    // Получить данные о сотрудниках Организации
+    // https://help.webinar.ru/ru/articles/3151499-получить-данные-о-сотрудниках-организации
+$data = array();
+$url = 'https://userapi.webinar.ru/v3/organization/members'.http_build_query($data);
+$options = array(
+        'http' => array(
+        'header'  =>
+        "Content-Type: application/x-www-form-urlencoded\r\n" .
+        "x-auth-token: $token\r\n",
+        'method'  => 'GET',
+    )
+);
+$context = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+
+$arrVal=json_decode($result, true);
+
+
+echo 'Получили массив преподавателей за ' . (microtime(true) - $start) . ' секунд<br>';
+
+//===========================================================================
 
 $start = microtime(true);
 
@@ -54,7 +79,18 @@ foreach ($arrVal as $key => $value) {
 
 mysqli_close($conn);
 
-echo 'Скрипт был выполнен за ' . (microtime(true) - $start) . ' секунд';
+echo 'Заполнили таблицу преподавателей за ' . (microtime(true) - $start) . ' секунд<br>';
+//=================================================================================
+
+$start = microtime(true);
+
+$conn = mysqli_connect($servername, $username, $password, $database);
+$sql = "SELECT * FROM siteuser";
+$result = mysqli_query($conn, $sql);
+echo 'Получили массив из таблицы за ' . (microtime(true) - $start) . ' секунд<br>';
+
+
+
 
 ?>
 <!DOCTYPE html>
