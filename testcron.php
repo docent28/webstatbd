@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$database = "webstat";
+$database = "docent28_tstcrn";
 $username = "root";
-$password = "";
+$password = "Ntyfc1967!";
 // Устанавливаем соединение
 $conn = mysqli_connect($servername, $username, $password, $database);
 // Проверяем соединение
