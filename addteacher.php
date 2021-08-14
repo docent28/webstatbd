@@ -59,25 +59,6 @@ foreach ($arrKeyAPI as $key => $value) {
             }
       }
 
-rtrd
- 
-/*
-      foreach ($arrTeacherTable as $keyT => $valueT) {
-            foreach ($listTeacher as $keyL => $valueL) {
-                  if ($valueL['id'] == $valueT['userID']) {
-                        echo('нашел<br>');
-                        break;
-                  } else {
-                        $nameUser = "'".$valueL['secondName']." ".$valueL['name']."'";
-                        $userID = $valueL['id'];
-
-                        $sql = "INSERT INTO siteuser (name, userid, idestablishment) VALUES ($nameUser, $userID, $idestablishment)";
-                        mysqli_query($conn, $sql);
-                  }
-            }
-      }
-*/
-
 }
 
 echo 'Сверили массивы за ' . (microtime(true) - $start) . ' секунд<br>';
