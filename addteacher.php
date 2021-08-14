@@ -43,10 +43,6 @@ foreach ($arrKeyAPI as $key => $value) {
 
 	$listTeacher = json_decode($result, true);     // вытащили преподавателей конкретной организации, актуальное состояние
 
-	$sql = "SELECT * FROM `siteuser` WHERE `idestablishment` = '".$idestablishment."'";
-      $arrTeacherTable = mysqli_query($conn, $sql);
-      $arrTeacherTable = mysqli_fetch_all($arrTeacherTable, MYSQLI_ASSOC);
-
       foreach ($listTeacher as $keyL => $valueL) {
             $sql = "SELECT * FROM `siteuser` WHERE 'userID' = ".$valueL['id'];
             $result = mysqli_query($conn, $sql);
@@ -61,7 +57,7 @@ foreach ($arrKeyAPI as $key => $value) {
 
 }
 
-echo 'Сверили массивы за ' . (microtime(true) - $start) . ' секунд<br>';
+echo 'Сверили массивы преподавателей за ' . (microtime(true) - $start) . ' секунд<br>';
 
 mysqli_close($conn);
 
