@@ -18,19 +18,20 @@ if (!$conn) {
 
 
 $sql = "SELECT * FROM `actions`";
-echo($sql);
-echo('<br><br>');
 
 $arrActions = mysqli_query($conn, $sql);
-var_dump($arrActions);
-
-echo('<br><br>');
-
-$row = mysqli_fetch_array($arrActions, MYSQLI_ASSOC);
-
-var_dump($row);
 
 echo 'Вытащили мероприятия за ' . (microtime(true) - $start) . ' секунд<br>';
+
+$start = microtime(true);
+
+// Устанавливаем соединение
+
+$sql = "SELECT * FROM `siteuser`";
+
+$arrTeacher = mysqli_query($conn, $sql);
+
+echo 'Вытащили преподавателей за ' . (microtime(true) - $start) . ' секунд<br>';
 
 mysqli_close($conn);
 
