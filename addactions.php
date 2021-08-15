@@ -23,23 +23,22 @@ $arrKeyAPI = mysqli_query($conn, $sql);
 // проходим по всем организациям и актуализируем список мероприятий
 foreach ($arrKeyAPI as $key => $value) {
 	$token = $value['keyAPI'];
-      $idestablishment = $value['id'];
-      $startDate = $value['startDate'];
-      $endDate = date("Y-m-d", strtotime("-1 day"));
+	$idestablishment = $value['id'];
+	$startDate = $value['startDate'];
+	$endDate = date("Y-m-d", strtotime("-1 day"));
 
-    // получаем список всех преподавателей, зарегистрированных в системе Webinar.ru
-    // по каждой организации которая есть в таблице establishment
-      $sql = "SELECT * FROM `siteuser` WHERE idEstablishment = ".$idestablishment;
-      $listTeacher = mysqli_query($conn, $sql);
-      if (mysqli_num_rows($listTeacher) != 0) {
-      	if ($value['initialDownload']) {
-      		$startDate = date("Y-m-d", strtotime("-1 day"));
-      	}
-      	foreach ($listTeacher as $keyT => $valueT){
-      		$userID = $valueT['userID'];
+	// получаем список всех преподавателей, зарегистрированных в системе Webinar.ru
+	// по каждой организации которая есть в таблице establishment
+	$sql = "SELECT * FROM `siteuser` WHERE idEstablishment = ".$idestablishment;
+	$listTeacher = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($listTeacher) != 0) {
+		if ($value['initialDownload']) {
+			$startDate = date("Y-m-d", strtotime("-1 day"));
+		}
+		foreach ($listTeacher as $keyT => $valueT){
+			$userID = $valueT['userID'];
 			// Получить информацию о завершенных мероприятиях
 			// Пробегаемся по списку преподавателей
-
 			$data = array(
 			    'from' => $startDate.'T00:00:00',
 			    'to' => $endDate.'T23:59:59',
@@ -63,20 +62,20 @@ foreach ($arrKeyAPI as $key => $value) {
 			if (@file_get_contents($url, false, $context)) {
 				$resultR = file_get_contents($url, false, $context);
 				$arrActions = json_decode($resultR, true);
-if (count($arrActions) > 0) {
-	// code...
+				if (count($arrActions) > 0) {
+					foreach ($arrActions as $keyA => $valueA) {
+						$idRecords = $arrActions[$keyA]['id'];
+						$name = "'".$arrActions[$keyA]['name']."'";
+						$dateStart = "'".substr($arrActions[$keyA]['startsAt'], 0, 19)."'";
+						$dateEnd = "'".substr($arrActions[$keyA]['endsAt'], 0, 19)."'";
 
-				$idRecords = $arrActions[$keyT]['id'];
-				$name = "'".$arrActions[$keyT]['name']."'";
-				$dateStart = "'".substr($arrActions[$keyT]['startsAt'], 0, 19)."'";
-				$dateEnd = "'".substr($arrActions[$keyT]['endsAt'], 0, 19)."'";
-
-				$sql = "INSERT INTO actions (idRecords, name, dateStart, dateEnd, idUser) VALUES ($idRecords, $name, $dateStart, $dateEnd, $userID)";
-				mysqli_query($conn, $sql);
-}
+						$sql = "INSERT INTO actions (idRecords, name, dateStart, dateEnd, idUser) VALUES ($idRecords, $name, $dateStart, $dateEnd, $userID)";
+						mysqli_query($conn, $sql);
+					}
+				}
 			}
 		}
-      }
+	}
 }
 
 echo 'Добавили мероприятия за ' . (microtime(true) - $start) . ' секунд<br>';
