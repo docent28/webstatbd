@@ -24,11 +24,6 @@ $arrKeyAPI = mysqli_query($conn, $sql);
 foreach ($arrKeyAPI as $key => $value) {
 	$token = $value['keyAPI'];
 	$idestablishment = $value['id'];
-	if ($value['initialDownload']) {
-		$startDate = date("Y-m-d", strtotime("-1 day"));
-	} else {
-		$startDate = $value['startDate'];
-	}
 	$endDate = date("Y-m-d", strtotime("-1 day"));
 
 	// получаем список всех преподавателей, зарегистрированных в системе Webinar.ru
@@ -38,6 +33,8 @@ foreach ($arrKeyAPI as $key => $value) {
 	if (mysqli_num_rows($listTeacher) != 0) {
 		if ($value['initialDownload']) {
 			$startDate = date("Y-m-d", strtotime("-1 day"));
+		} else {
+			$startDate = $value['startDate'];
 		}
 		foreach ($listTeacher as $keyT => $valueT){
 			$userID = $valueT['userID'];
@@ -74,7 +71,7 @@ foreach ($arrKeyAPI as $key => $value) {
 						$dateEnd = "'".substr($arrActions[$keyA]['endsAt'], 0, 19)."'";
 
 						$sql = "INSERT INTO actions (idRecords, name, dateStart, dateEnd, idUser) VALUES ($idRecords, $name, $dateStart, $dateEnd, $userID)";
-						mysqli_query($conn, $sql);
+						$rezsql = mysqli_query($conn, $sql);
 					}
 				}
 			}
