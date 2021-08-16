@@ -22,12 +22,13 @@ $arrKeyAPI = mysqli_query($conn, $sql);
 
 // проходим по всем организациям и актуализируем список мероприятий
 foreach ($arrKeyAPI as $key => $value) {
-	if ($value['initialDownload']) {
-		$startDate = date("Y-m-d", strtotime("-1 day"));
-	}
 	$token = $value['keyAPI'];
 	$idestablishment = $value['id'];
-	$startDate = $value['startDate'];
+	if ($value['initialDownload']) {
+		$startDate = date("Y-m-d", strtotime("-1 day"));
+	} else {
+		$startDate = $value['startDate'];
+	}
 	$endDate = date("Y-m-d", strtotime("-1 day"));
 
 	// получаем список всех преподавателей, зарегистрированных в системе Webinar.ru
@@ -82,7 +83,7 @@ foreach ($arrKeyAPI as $key => $value) {
 			$sqlU = "UPDATE `establishment` SET `initialDownload` = '1' WHERE `establishment`.`id` = ".$idestablishment;
 			mysqli_query($conn, $sqlU);
 		}
-		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdate` = '".microtime(true)."' WHERE `establishment`.`id` = ".$idestablishment;
+		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdate` = '".date("Y-m-d H:i:s")."' WHERE `establishment`.`id` = ".$idestablishment;
 		mysqli_query($conn, $sqlLastDate);
 	}
 }
