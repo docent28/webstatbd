@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 $servername = "localhost";
-// $database = "docent28_tstcrn";
-// $username = "docent28_tstcrn";
-// $password = "Ntyfc1967!";
-$database = "webstat";
-$username = "root";
-$password = "";
+$database = "docent28_tstcrn";
+$username = "docent28_tstcrn";
+$password = "Ntyfc1967!";
+//$database = "webstat";
+//$username = "root";
+//$password = "";
 
 $start = microtime(true);
 
