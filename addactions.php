@@ -22,6 +22,9 @@ $arrKeyAPI = mysqli_query($conn, $sql);
 
 // проходим по всем организациям и актуализируем список мероприятий
 foreach ($arrKeyAPI as $key => $value) {
+	if ($value['initialDownload']) {
+		$startDate = date("Y-m-d", strtotime("-1 day"));
+	}
 	$token = $value['keyAPI'];
 	$idestablishment = $value['id'];
 	$startDate = $value['startDate'];
@@ -75,6 +78,12 @@ foreach ($arrKeyAPI as $key => $value) {
 				}
 			}
 		}
+		if (!$value['initialDownload']) {
+			$sqlU = "UPDATE `establishment` SET `initialDownload` = '1' WHERE `establishment`.`id` = ".$idestablishment;
+			mysqli_query($conn, $sqlU);
+		}
+		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdate` = '".microtime(true)."' WHERE `establishment`.`id` = ".$idestablishment;
+		mysqli_query($conn, $sqlLastDate);
 	}
 }
 
