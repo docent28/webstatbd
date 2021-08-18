@@ -80,7 +80,7 @@ foreach ($arrKeyAPI as $key => $value) {
 			$sqlU = "UPDATE `establishment` SET `initialDownload` = '1' WHERE `establishment`.`id` = ".$idestablishment;
 			mysqli_query($conn, $sqlU);
 		}
-		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdate` = '".date("Y-m-d H:i:s")."' WHERE `establishment`.`id` = ".$idestablishment;
+		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdate` = '".date("Y-m-d H:i:s")."' WHERE `establishment`.`id` = '".$idestablishment."'";
 		mysqli_query($conn, $sqlLastDate);
 	}
 }
