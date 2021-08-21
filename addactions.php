@@ -71,7 +71,7 @@ foreach ($arrKeyAPI as $key => $value) {
 						$dateEnd = "'".substr($arrActions[$keyA]['endsAt'], 0, 19)."'";
 
 						$sql = "INSERT INTO actions (idRecords, name, dateStart, dateEnd, idUser) VALUES ($idRecords, $name, $dateStart, $dateEnd, $userID)";
-						$rezsql = mysqli_query($conn, $sql);
+						mysqli_query($conn, $sql);
 					}
 				}
 			}
