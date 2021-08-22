@@ -53,11 +53,15 @@ foreach ($arrKeyAPI as $key => $value) {
                         $sql = "INSERT INTO siteuser (name, userid, idestablishment) VALUES ($nameUser, $userID, $idestablishment)";
                         mysqli_query($conn, $sql);
             }
-      }
 
+      }
+		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdateTeacher` = '".date("Y-m-d H:i:s")."' WHERE `establishment`.`id` = ".$idestablishment;
+		mysqli_close($conn);
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		mysqli_query($conn, $sqlLastDate);
 }
 
-echo 'Сверили массивы преподавателей за ' . (microtime(true) - $start) . ' секунд<br>';
+echo 'Сверили массивы преподавателей за '. (microtime(true) - $start) .' секунд<br>';
 
 mysqli_close($conn);
 
