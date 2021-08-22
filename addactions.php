@@ -31,7 +31,7 @@ foreach ($arrKeyAPI as $key => $value) {
 	$sql = "SELECT * FROM `siteuser` WHERE idEstablishment = ".$idestablishment;
 	$listTeacher = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($listTeacher) != 0) {
-		if ($value['initialDownload']) {
+		if ($value['lastDateUpdateWebinars'] != NULL) {
 			$startDate = date("Y-m-d", strtotime("-1 day"));
 		} else {
 			$startDate = $value['startDate'];
@@ -76,18 +76,14 @@ foreach ($arrKeyAPI as $key => $value) {
 				}
 			}
 		}
-		if (!$value['initialDownload']) {
-			$sqlU = "UPDATE `establishment` SET `initialDownload` = '1' WHERE `establishment`.`id` = ".$idestablishment;
-			mysqli_query($conn, $sqlU);
-		}
-		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdate` = '".date("Y-m-d H:i:s")."' WHERE `establishment`.`id` = ".$idestablishment;
+		$sqlLastDate = "UPDATE `establishment` SET `lastDateUpdateWebinars` = '".date("Y-m-d H:i:s")."' WHERE `establishment`.`id` = ".$idestablishment;
 		mysqli_close($conn);
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		mysqli_query($conn, $sqlLastDate);
 	}
 }
 
-echo 'Добавили мероприятия за ' . (microtime(true) - $start) . ' секунд<br>';
+echo 'Добавили мероприятия за '. (microtime(true) - $start) .' секунд';
 
 mysqli_close($conn);
 
