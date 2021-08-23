@@ -1,31 +1,39 @@
 <?php
-    echo('index.php<br>');
+session_start();
+
+if ($_SESSION['user']) {
+    header('Location: profile.php');
+}
+
 ?>
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <title>Статистика Webinar-ru</title>
+    <title>Авторизация и регистрация</title>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <form>
-        <input type="button" value = "Все вебинары" name="webinars">
-        <input type="button" value = "Преподаватель" name="teachers">
-        <input type="button" value = "Удаление вебинаров" name="delWebinars">
-        <input type="button" value = "Удаление записей" name="delRecords">
-        <input type="button" value = "Общее" name="statistic">
+
+<!-- Форма авторизации -->
+
+    <form action="vendor/signin.php" method="post">
+        <label>Логин</label>
+        <input type="text" name="login" placeholder="Введите свой логин">
+        <label>Пароль</label>
+        <input type="password" name="password" placeholder="Введите пароль">
+        <button type="submit">Войти</button>
+        <p>
+            У вас нет аккаунта? - <a href="register.php">зарегистрируйтесь</a>!
+        </p>
+        <?php
+            if ($_SESSION['message']) {
+                echo '<p class="msg"> ' . $_SESSION['message'] . ' </p>';
+            }
+            unset($_SESSION['message']);
+        ?>
     </form>
-    <div id="contentBody">
-    </div>
-    <div id="contentTest">
-    </div>
-    <div id="delRecords">
-    </div>
-    <div id="loading" style="display: none">
-        <p>Идет загрузка...</p>
-    </div>
-    <script type="text/javascript" src="js/showcontent.js"></script>
+
 </body>
 </html>
