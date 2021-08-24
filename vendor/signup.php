@@ -3,11 +3,11 @@
     session_start();
     require_once 'connect.php';
 
-    $full_name = $_POST['full_name'];
-    $login = $_POST['login'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $password_confirm = $_POST['password_confirm'];
+    $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
+    $login = mysqli_real_escape_string($conn, $_POST['login']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $password_confirm = mysqli_real_escape_string($conn, $_POST['password_confirm']);
 
     if ($password === $password_confirm) {
 
