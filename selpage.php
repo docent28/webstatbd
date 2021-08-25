@@ -11,7 +11,6 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 if (($_SESSION['user'] ?? '') === '') {
     header('Location: /');
 }
-
     echo('selpage.php<br>');
 ?>
 <!DOCTYPE html>
