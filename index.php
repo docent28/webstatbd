@@ -1,6 +1,6 @@
 <?php
+session_save_path("session");
 session_start();
-
 
 if (array_key_exists('user', $_SESSION)) {
     header('Location: selpage.php');
