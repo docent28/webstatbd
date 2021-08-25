@@ -1,4 +1,17 @@
 <?php
+session_save_path("session");
+session_start();
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 120)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+
+if (($_SESSION['user'] ?? '') === '') {
+    header('Location: /');
+}
+
 echo('delrecords.php<br>');
 	$token = '548b24d95ee6ada9fd35e9c3298b0796';
 
