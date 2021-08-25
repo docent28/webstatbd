@@ -1,6 +1,17 @@
 <?php
+session_save_path("../session");
+session_start();
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 120)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 
-    session_start();
+if (($_SESSION['user'] ?? '') === '') {
+    header('Location: /');
+}
+
     require_once 'connect.php';
 
     $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
